@@ -1,4 +1,3 @@
-TEST
 # pestHubMap
 
 <!-- badges: start -->
