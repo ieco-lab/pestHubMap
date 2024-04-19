@@ -11,12 +11,12 @@ be easily adapted to build applications for any invasive species, and we provide
 data and code in the context of the spotted lanternfly (SLF; *Lycorma
 delicatula*).
 
--   *Why ‘pestHubMap’?* pest == invasive species + Hub == properties
-    that facilitate invasive species spread + Map == interactive mapping
-    applications
--   *Why build pestHubMaps?* Our maps are designed to provide agencies
-    with information to find and optimally allocate resources to control
-    invasive species and control spread.
+-   *Why ‘pestHubMap’?*
+    -   pest == invasive species
+    -   Hub == properties that accelerate invasive species spread
+    -   Map == interactive mapping applications
+-   *Why build pestHubMaps?*
+    -   Invasive species spread rapidly via hubs, Our maps are designed to provide agencies with information to find and optimally allocate resources to control invasive species and control spread.
 -   *Why spotted lanternfly?* [The spotted lanternfly pest](https://en.wikipedia.org/wiki/Spotted_lanternfly) is a rapidly spreading, large, invasive planthopper that hitchhikes on a wide
     range of goods and transportation infrastructure. SLF feeds
     on &gt;150 plant hosts and threatens billions of dollars of
