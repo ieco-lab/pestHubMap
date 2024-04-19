@@ -30,12 +30,12 @@ delicatula*).
 We have developed several pestHubMap apps for spotted lanternfly management in the U.S.A. These apps range in extent from county to state. The link below takes you to a dashboard to explore the different apps.
 [slf.iecolab.org](https://iecolab.org/slfDashboard/pestHubMap.html)
 
-## pestHubMap Instructions
+## Instructions to Build a pestHubMap App
 
-To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The programs we reference below are tailored for Windows users.
+To build a pestHubMap app, first copy this repo to your computer and customize the code as needed. Once the app runs successfully on your [localhost](https://en.wikipedia.org/wiki/Localhost), proceed to host it online by following the required guidelines of your chosen web service. The programs we reference below are tailored for Windows users.
 
 #### Copy this Repo
-1. Fork the pestHubMap repo https://github.com/ieco-lab/pestHubMap/fork and get a copy of the repo and use the Template code we provide.
+1. Fork the pestHubMap repo https://github.com/ieco-lab/pestHubMap/fork and get a copy of the repo and use the template code we provide.
     -   By forking, you copy a version of this repo into your own GitHub account. 
     -   Clone the repo on your computer.
         - If you know [git](https://git-scm.com/), great, you know what to do!
