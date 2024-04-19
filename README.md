@@ -1,4 +1,4 @@
-# pestHubMap
+# pestHubMap Code Repo
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -22,10 +22,8 @@ delicatula*).
     -   Map == interactive mapping applications
 -   *Why build pestHubMaps?*
     -   Invasive species spread rapidly via hubs, Our maps are designed to provide agencies with information to find and optimally allocate resources to control invasive species and control spread.
--   *Why spotted lanternfly?* [The spotted lanternfly pest](https://en.wikipedia.org/wiki/Spotted_lanternfly) is a rapidly spreading, large, invasive planthopper that hitchhikes on a wide
-    range of goods and transportation infrastructure. SLF feeds
-    on &gt;150 plant hosts and threatens billions of dollars of
-    agricultural loss. Primarily to grapes, where it damage is substantial and it has the potential to [disrupt the global wine market](https://www.nature.com/articles/s42003-022-03580-w). It is a prime model organism to develop the pestHubMap framework. 
+-   *Why spotted lanternfly?*
+    -    [The spotted lanternfly pest](https://en.wikipedia.org/wiki/Spotted_lanternfly) is a rapidly spreading, large, invasive planthopper that hitchhikes on a wide range of goods and transportation infrastructure. SLF feeds on &gt;150 plant hosts and threatens billions of dollars of agricultural loss. Primarily to grapes, where it damage is substantial and it has the potential to [disrupt the global wine market](https://www.nature.com/articles/s42003-022-03580-w). It is a prime model organism to develop the pestHubMap framework. 
 
 ## *Lycorma delicatula* Spotted Lanternfly pestHubMap apps
 
@@ -34,14 +32,15 @@ We have developed several pestHubMap apps for spotted lanternfly management in t
 
 ## pestHubMap Instructions
 
-To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The programs we reference are tailored for Windows users.
+To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The programs we reference below are tailored for Windows users.
 
-#### Fork the Repository
-1. Fork the pestHubMap repository https://github.com/ieco-lab/pestHubMap/fork.
-    -   By forking, you can then code your own pestHubMap application based on the Template code we provide.
-    -   If you have improvements to the code, then suggest a commit!
-    -   Use GitHub Desktop to fork if you do not know Git or another version control system. Read the [GHD Instructions](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop), it is easy to use this GUI for all of your version control needs.  
-
+#### Copy this Repo
+1. Fork the pestHubMap repo https://github.com/ieco-lab/pestHubMap/fork and get a copy of the repo and use the Template code we provide.
+    -   By forking, you copy a version of this repo into your own GitHub account. 
+    -   Clone the repo on your computer.
+        - If you know [git](https://git-scm.com/), great, you know what to do!
+        - Otherwise, to fork install the GUI [GitHub Desktop](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop).  
+  
 #### Install WampServer
 1.  For Windows, install [WampServer](https://sourceforge.net/projects/wampserver/files/latest/download). For other operative systems, perhaps try [XAMPP](https://www.apachefriends.org/).
     -   Read all of the WampServer installation instructions when they pop up. If you do not follow the instructions well, then the installation will not work and the WampServer icon will not turn green indicating that you can begin building the app.
