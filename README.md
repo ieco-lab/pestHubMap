@@ -3,6 +3,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+## Citation
+
+Helmus, MR, VA Ramirez, EJ Zangakis, JM Gleditsch, I Smith. *in prep* pestHubMap: A framework to design
+interactive applications to map properties that spread invasive species. contact mrhelmus@temple.edu
+
 ## Description
 
 A framework to build applications that map “hubs” at high risk of
@@ -22,19 +27,14 @@ delicatula*).
     on &gt;150 plant hosts and threatens billions of dollars of
     agricultural loss. Primarily to grapes, where it damage is substantial and it has the potential to [disrupt the global wine market](https://www.nature.com/articles/s42003-022-03580-w). It is a prime model organism to develop the pestHubMap framework. 
 
-## Lycorma delicatula Spotted Lanternfly Applications
+## *Lycorma delicatula* Spotted Lanternfly pestHubMap apps
 
-We have developed several versions of pestHubMap apps for spotted lanternfly in the U.S.A. These apps range in extent from county to state. The link below takes you to a dashboard where you can explore the different apps.
+We have developed several pestHubMap apps for spotted lanternfly management in the U.S.A. These apps range in extent from county to state. The link below takes you to a dashboard to explore the different apps.
 [slf.iecolab.org](https://iecolab.org/slfDashboard/pestHubMap.html)
-
-## Citation
-
-Helmus, MR, VA Ramirez, EJ Zangakis, JM Gleditsch, I Smith. *in prep* pestHubMap: A framework to design
-interactive applications to map properties that spread invasive species. contact mrhelmus@temple.edu
 
 ## pestHubMap Instructions
 
-To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The steps below are specifically tailored for Windows 10 users looking to deploy a local version of pestHubMap.
+To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The programs we reference are tailored for Windows users.
 
 #### Fork the Repository
 1. Fork this pestHubMap repository https://github.com/ieco-lab/pestHubMap.
