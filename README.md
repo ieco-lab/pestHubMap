@@ -37,7 +37,7 @@ We have developed several pestHubMap apps for spotted lanternfly management in t
 To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The programs we reference are tailored for Windows users.
 
 #### Fork the Repository
-1. Fork this pestHubMap repository https://github.com/ieco-lab/pestHubMap.
+1. Fork the pestHubMap repository https://github.com/ieco-lab/pestHubMap/fork.
     -   By forking, you can then code your own pestHubMap application based on the Template code we provide.
     -   If you have improvements to the code, then suggest a commit!
     -   Use GitHub Desktop to fork if you do not know Git or another version control system. Read the [GHD Instructions](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop), it is easy to use this GUI for all of your version control needs.  
