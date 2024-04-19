@@ -7,7 +7,7 @@
 
 A framework to build applications that map “hubs” at high risk of
 transporting invasive pests among properties. The framework and code can
-be easily adapted to build applications for any pest, and we provide our
+be easily adapted to build applications for any invasive species, and we provide our
 data and code in the context of the spotted lanternfly (SLF; *Lycorma
 delicatula*).
 
@@ -17,50 +17,24 @@ delicatula*).
 -   *Why build pestHubMaps?* Our maps are designed to provide agencies
     with information to find and optimally allocate resources to control
     invasive species and control spread.
--   *Why slf?* SLF is a rapidly spreading pest that hitchhikes on a wide
+-   *Why spotted lanternfly?* [The spotted lanternfly pest](https://en.wikipedia.org/wiki/Spotted_lanternfly) is a rapidly spreading, large, invasive planthopper that hitchhikes on a wide
     range of goods and transportation infrastructure. SLF feeds
     on &gt;150 plant hosts and threatens billions of dollars of
-    agricultural loss.
-
-## Usage
-
-To understand why this framework is useful and to build your own
-applications:
-
-1.  Read the [paper](LINK)
-2.  Explore this [GitHub
-    repository](https://ieco-lab.github.io/pestHubMap/) and use our
-    provided data to test things out
+    agricultural loss. Primarily to grapes, where it damage is substantial and it has the potential to [disrupt the global wine market](https://www.nature.com/articles/s42003-022-03580-w). It is a prime model organism to develop the pestHubMap framework. 
 
 ## Lycorma delicatula Spotted Lanternfly Applications
 
-Our SLF Dashboard with all applications:
-[slf.iecolab.org/](https://iecolab.org/slfDashboard/index.html)
-
-1.  Pennsylvania pestHubMap:
-    <https://iecolab.org/lanternfly-webapp/SLF_Points_of_Interest/index.php>
-2.  California pestHubMap:
-    <https://iecolab.org/slfDashboard/california_risk.html>
-3.  Indiana pestHubMap:
-    <https://iecolab.org/lanternfly-webapp-indiana/SLF_Points_Indiana/index.php>
-4.  Ohio pestHubMap:
-    <https://iecolab.org/lanternfly-webapp-cleveland/SLF_Points_Cleveland/index.php>
-5.  Chicagoland pestHubMap:
-    <https://iecolab.org/lanternfly-webapp-chicago/SLF_points_Chicago/index.php>
-6.  Virginia pestHubMap:
-    <https://iecolab.org/lanternfly-webapp-va/SLF_Points_VA/index.php>
+We have developed several versions of pestHubMap apps for spotted lanternfly in the U.S.A. These apps range in extent from county to state. The link below takes you to a dashboard where you can explore the different apps.
+[slf.iecolab.org/]([https://iecolab.org/slfDashboard/index.html](https://iecolab.org/slfDashboard/pestHubMap.html))
 
 ## Citation
 
-Helmus, M.R., Zangakis, E. J., Gleditsch, J. M. Ramirez, V.A. pestHubMap: A framework to design
-interactive applications to map properties that spread invasive species.
-*In prep.*
+Helmus, MR, VA Ramirez, EJ Zangakis, JM Gleditsch, I Smith. *in prep* pestHubMap: A framework to design
+interactive applications to map properties that spread invasive species. contact mrhelmus@temple.edu
 
-## pestHubMap Local Host Instructions
+## pestHubMap Instructions
 
-To build an pestHubMap, you first must deploy it locally on your computer and then edit the code to get the app you want. Once you have edited the code to make the app you want, and it runs on your localhost, then you can upload your app to a web hosting service following the protocols of that external service. All of the below instructions were developed on Windows 10 PC. Below are described the steps to deploy a localhost instance of a pestHubMap. 
-
-### Steps for localhost deployment
+To develop a pestHubMap app, first set it up locally on your computer and customize the code as needed. Once the app runs successfully on your localhost, proceed to host it online by following the required guidelines of your chosen web service. The steps below are specifically tailored for Windows 10 users looking to deploy a local version of pestHubMap.
 
 #### Fork the Repository
 1. Fork this pestHubMap repository https://github.com/ieco-lab/pestHubMap.
