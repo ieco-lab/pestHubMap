@@ -25,7 +25,7 @@ delicatula*).
 ## Lycorma delicatula Spotted Lanternfly Applications
 
 We have developed several versions of pestHubMap apps for spotted lanternfly in the U.S.A. These apps range in extent from county to state. The link below takes you to a dashboard where you can explore the different apps.
-[slf.iecolab.org/]([https://iecolab.org/slfDashboard/index.html](https://iecolab.org/slfDashboard/pestHubMap.html))
+[slf.iecolab.org](https://iecolab.org/slfDashboard/pestHubMap.html)
 
 ## Citation
 
