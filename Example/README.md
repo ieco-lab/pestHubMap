@@ -1,1 +1,1 @@
-Here are two example apps.
+Here are two example apps
