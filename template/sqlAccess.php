@@ -1,16 +1,16 @@
-<!-- THIS PAGE IS PRIVATE AND SHOULD NOT BE ACCESSIBLE TO ANYONE OUTSIDE OF iECOLAB -->
+<!-- THIS PAGE IS PRIVATE AND SHOULD NOT BE ACCESSIBLE TO ANYONE OUTSIDE OF YOUR ORGANIZATION -->
 
 <!-- This page contains sensitive data (webserver login) and must be made private on the web servername
-  -- It is to be called by the main page through the 'require()' php function -->
+  -- It is called by index.php through the 'require()' php function -->
 
 
 <?php
 
-/************ CONNECT TO SERVER ************/
+/************ A. Connect to server ************/
 	$servername = "localhost";
-	$username = "igsmith";
-	$password = "SMzIkd8cTus@I3V7";
-	$dbname = "oh_locations"; 
+	$username = "USERNAME";
+	$password = "PASSWORD"; //password -> found on cpanel SQL management tab
+    $dbname = "DATABASE"; 
 	
 
 	
@@ -27,7 +27,7 @@
 	else{
 		echo "Connected successfully<br><br>";
 	} 
-/*************************************************************/	
+/************** B. function sqlPull() *************************/	
  function sqlPull($connection, $tableName, $layerName, $iconName){
 	$sql = "SELECT * FROM $tableName";
 	$result = mysqli_query($connection, $sql);
@@ -35,11 +35,10 @@
 		// output data of each row
 		echo "<script>var $layerName = L.layerGroup();"; //create cluster layer
 		while($row = mysqli_fetch_assoc($result)) {
-			$popup = '"<dd>'.strval($row['Name']). '</dd>'
-					.'<dd>'.strval($row['Address']).'</dd>'
-					.'<a href= \''.strval('https://google.com/maps/place/').strval($row['Address']).'\' target='.'blank'.'>View Google Maps </a>"';
-			
-			
+			    $popup = '"<dd>'.strval($row['Name']). '</dd>'
+                        .'<a href=\'https://google.com/maps/place/'.strval($row['Address']).'\' target=\'_blank\'><dd>'.strval($row['Address']).'</dd></a><br>'
+                        .'<a href=\'https://google.com/maps/place/'.strval($row['Latitude'].",".$row['Longitude']).'\' target=\'_blank\'><dd>'.strval($row['Latitude'].",".$row['Longitude']).'</dd></a>"';
+                        
 			echo " $layerName.addLayer(L.marker([".$row['Latitude'].",".$row['Longitude']."], {icon: $iconName})
 			.bindPopup(".$popup.",{closeButton:true}));";
 		}
@@ -49,80 +48,26 @@
 	}
 }
 
-sqlPull($conn, "amusementparks", "amusementParkLayer", "amusementPark");
+sqlPull($conn, "hospitals", "hospitalsLayer", "hospital");
 
-sqlPull($conn, "auctioncenter", "auctionCenterLayer", "auction");
+sqlPull($conn, "policestations", "policeStationsLayer", "badge");
 
-sqlPull($conn, "boatlaunches", "boatLayer", "marina"); 
-
-sqlPull($conn, "campground", "campgroundLayer", "tent");
-
-sqlPull($conn, "casino", "casinoLayer", "casinoIcon");	
-
-sqlPull($conn, "college", "collegeLayer", "cap");
-
-sqlPull($conn, "dod", "dodLayer", "armory");
-
-sqlPull($conn, "fairgrounds", "fairgroundLayer", "ride");
-
-sqlPull($conn, "farmersmarket", "farmerMarketLayer", "farmerMarket");
-
-sqlPull($conn, "fleamarket", "fleaMarketLayer", "market");
-
-sqlPull($conn, "landscape", "landscapingLayer", "grass");
-
-sqlPull($conn, "marinas", "marinaLayer", "marina");
-
-sqlPull($conn, "racetracks", "racetrackLayer", "raceFlag");
-
-sqlPull($conn, "railroads", "railroadLayer", "train");
-
-sqlPull($conn, "shippingdistribution", "distributionLayer", "distribution");
-
-sqlPull($conn, "stadiums", "stadiumLayer", "helmetIcon");
-
-sqlPull($conn, "summercamp", "summerCampLayer", "sunIcon");
-
-sqlPull($conn, "timber", "timberLayer", "lumber");
-
-sqlPull($conn, "truckrentals", "truckrentalLayer", "delivTruck");
-
-sqlPull($conn, "truckstops", "truckstopLayer", "truck");	
-
-sqlPull($conn, "winery", "wineryLayer", "winery");
+sqlPull($conn, "universities", "universitiesLayer", "cap"); 
 
 mysqli_close($conn); 
 
 
 
 
-/********** ADD LAYERS TO MAP ***********/
+/********** C. Add layers to map & Add/Remove Layer function ***********/
+//Add layers to map
 	echo '<script> 
 		var cluster = L.markerClusterGroup();
-	//	var cluster = L.marker();
 		
 		cluster.addLayers([
-		amusementParkLayer,
-	    auctionCenterLayer,
-		boatLayer,
-		campgroundLayer,
-		casinoLayer,
-		collegeLayer,
-		dodLayer,
-		fairgroundLayer,
-		farmerMarketLayer,
-		fleaMarketLayer,
-		landscapingLayer,
-		marinaLayer,
-		racetrackLayer,
-		railroadLayer,
-		distributionLayer,
-		stadiumLayer,
-		summerCampLayer,
-		timberLayer,
-		truckrentalLayer,
-		truckstopLayer,
-		wineryLayer
+			hospitalsLayer,
+			policeStationsLayer,
+			universitiesLayer
 			]);
 			
 			
@@ -132,32 +77,14 @@ mysqli_close($conn);
 	</script>  
 	
 	
-	<!------------------ ADD/REMOVE LAYER FUNCTION  ----------------------->
+	<!------------------ Add/remove layer function  ----------------------->
 	
 	<script>
 	//dictionary that links button id <Strings> to cluster layer js variables <JSON>
 	var layerClusterDict ={
-	"landscape": landscapingLayer,
-		"fleamarket" : fleaMarketLayer,
-		"casino" : casinoLayer,
-		"stadiums" :  stadiumLayer,
-		"campground" : campgroundLayer,
-		"fairgrounds" : fairgroundLayer,
-		"college" : collegeLayer,
-		"racetracks" : racetrackLayer,
-		"truckstops" : truckstopLayer,
-		"truckrentals" : truckrentalLayer,
-		"timber" : timberLayer, 
-		"marinas" : marinaLayer,	
-		"summerCamp": summerCampLayer,
-		"auctioncenter": auctionCenterLayer,
-		"shippingdistribution": distributionLayer,
-		"farmersmarket": farmerMarketLayer,
-		"winery": wineryLayer,
-		"dod": dodLayer,
-		"railroads" : railroadLayer,
-		"boatlaunches" : boatLayer,
-		"amusementparks" : amusementParkLayer
+		"hospitals" : hospitalsLayer,
+		"policestations" : policeStationsLayer,
+		"universities" : universitiesLayer
 	}; 
 	</script>' 
 	 

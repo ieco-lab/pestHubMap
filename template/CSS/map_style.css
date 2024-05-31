@@ -30,6 +30,25 @@
 	.imageAlign {float: left;
 				vertical-align: text-bottom}
 
+.blueButton {background-color: #4169E1;
+	border: none;
+		color: white;
+		padding: 10px 16px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 14px;
+		margin: 4px 2px;
+		cursor: pointer;} /* Red */ 
+	.button4 {background-color: #e7e7e7; color: black;} /* Gray */ 
+	.button5 {background-color: #555555;} /* Black */
+	
+	.formText {float: right;
+				vertical-align: sub}
+	.imageAlign {float: left;
+				vertical-align: text-bottom}
+
+
 .info {
     padding: 6px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
