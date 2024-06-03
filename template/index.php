@@ -3,7 +3,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 	<!-- Tab name and icon -->
-	<title>PA Mock App - iEcoLab</title>
+	<title>pestHubMap Template/title>
 	<link rel="icon" href="images/logo.png">
 	
 <!------********** A. LOADING FOLDERS AND FILES *********----------->

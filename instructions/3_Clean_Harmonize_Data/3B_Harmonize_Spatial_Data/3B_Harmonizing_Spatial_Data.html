@@ -1634,21 +1634,20 @@ for this example.</p>
 <h3><strong>Loading in Packages</strong></h3>
 <pre class="r"><code>library(tidyverse) 
 library(here) #relative working directory
-library(tigris) #to load in county outline 
+library(tigris) #geopolitical boundary spatial files
 library(sf) #spatial harmonization
-
-library(rgdal) #loading in GDM
-#Download from archive: https://cran.r-project.org/web/packages/rgdal/index.html
-
-library(raster) #for the ensemble raster file
-library(terra) #so raster and shapefile can be compared
-library(exactextractr) #for extracting ensemble values to sub county shapefile</code></pre>
+library(raster) #to deal with rasters
+library(terra) #dealing with rasters and shps at the same time
+library(exactextractr) #for extracting ensemble values to subcounties</code></pre>
 </div>
 <div id="loading-spatial-files" class="section level3">
 <h3><strong>Loading Spatial Files</strong></h3>
 <pre class="r"><code>#file path
 shp_path &lt;- here(&quot;2_Obtain_Hub_Spatial_Data&quot;, &quot;2B_Obtain_Spatial_Data&quot;, &quot;Raw_Spatial_Data&quot;) %&gt;%
   str_remove(&quot;/3_Clean_Harmonize_Data/3B_Harmonize_Spatial_Data&quot;)
+
+#----establishment risk----
+establishment &lt;- rast(file.path(shp_path, &quot;slftoh_ensemble_mean_crop.tif&quot;))
 
 #----1km grid----
 #UTM zone 17
@@ -1673,17 +1672,15 @@ km_grid &lt;- rbind(km_grid_PA17, km_grid_PA18)
 subcounties &lt;- st_read(file.path(shp_path, &quot;tl_2019_42_cousub&quot;, &quot;tl_2019_42_cousub.shp&quot;)) %&gt;%
   filter(NAME != &quot;County subdivisions not defined&quot;)
 
-#----establishment risk----
-establishment &lt;- rast(file.path(shp_path, &quot;slftoh_ensemble_mean.tif&quot;))
-
 #----counties----
 counties &lt;- tigris::counties(&quot;Pennsylvania&quot;, cb = TRUE)
 
 #saving county outlines
 st_write(counties, here(&quot;Spatial_Data_Harmonized&quot;, &quot;county_outline&quot;, &quot;county_outline.shp&quot;), append = TRUE)
 
-#----world map----
-world &lt;- readOGR(file.path(shp_path, &quot;gadm36_0&quot;, &quot;gadm36_0.shp&quot;))</code></pre>
+#----state map----
+state &lt;- tigris::states() %&gt;%
+  filter(STUSPS == &quot;PA&quot;)</code></pre>
 </div>
 <div id="cropping-1km-grid-to-pa-counties" class="section level3">
 <h3><strong>Cropping 1km Grid to PA Counties</strong></h3>
@@ -1696,7 +1693,7 @@ for (county_name in counties_list) {
   county_data &lt;- counties %&gt;%
     filter(NAME == county_name)
   
-  #cropping IN grid to extent of county so code runs quicker
+  #cropping grid to extent of state so code runs quicker
   county_bbox &lt;- st_bbox(county_data)
   county_bbox_buffered &lt;- st_buffer(st_as_sfc(st_bbox(county_bbox)), dist = 1000)
   bbox_crop &lt;- st_crop(km_grid, county_bbox_buffered)
@@ -1728,47 +1725,37 @@ for (county_name in counties_list) {
 </div>
 <div id="extracting-establishment-at-subcounty-level" class="section level3">
 <h3><strong>Extracting Establishment at Subcounty Level</strong></h3>
-<pre class="r"><code>#getting outline of US
-usa &lt;- world[world@data$NAME_0 == &quot;United States&quot;,]
-
-#cropping for lower 48
-usa_cropped &lt;- usa %&gt;%
-  crop(x = ., y = extent(matrix(c(-124.7628, -66.94889, 24.52042, 49.3833), nrow = 2)))
-
-#cropping ensemble tif to USA
-establishment_crop &lt;- establishment %&gt;%
-  crop(x = ., y = usa_cropped) %&gt;%
-  mask(x = ., mask = vect(usa_cropped))
-
-#extracting values from ensemble tif to put into region 1 1km file
-state_establishment &lt;- exact_extract(
-  x = establishment_crop, 
+<pre class="r"><code>#extracting values from ensemble tif to subcounties
+establishment_extract &lt;- exact_extract(
+  x = establishment, 
   y = subcounties,
   &#39;mean&#39;)  
 
 #turning output list in data frame and renaming column with risk values
-state_establishment &lt;- data.frame(state_establishment) %&gt;%
-  rename(establishment_value = state_establishment)
+establishment_extract &lt;- data.frame(establishment_extract) %&gt;%
+  rename(establishment_value = establishment_extract)
 
 #combining new df with risk values to old df with the geographic data
-state_establishment_combined &lt;- bind_cols(subcounties, state_establishment)
+establishment_extract_subcounties &lt;- bind_cols(subcounties, establishment_extract)
 
-#writing file to computer
-st_write(state_establishment_combined, here(&quot;Spatial_Data_Harmonized&quot;, &quot;establishment_risk&quot;, &quot;establishment_risk.shp&quot;), append = TRUE)</code></pre>
+#saving file
+st_write(establishment_extract_subcounties, here(&quot;Spatial_Data_Harmonized&quot;, &quot;establishment_risk&quot;, &quot;establishment_risk.shp&quot;), append = TRUE)</code></pre>
 </div>
 <div id="calculating-density-of-hubs-at-subcounty-level" class="section level3">
 <h3><strong>Calculating Density of Hubs at Subcounty Level</strong></h3>
 <pre class="r"><code>#PART 1: Getting hub data
+  #list of hubs
   hub_types &lt;- c(&quot;hospitals&quot;, &quot;policeStations&quot;, &quot;universities&quot;)
 
   hubs &lt;- NULL
   
   for (type in hub_types) {
-    
+    #hub file path
     hubs_path &lt;- file.path(here(&quot;3A_Clean_Hub_Data&quot;, &quot;Hub_Data_Clean&quot;, 
                                 paste0(type, &quot;.csv&quot;))) %&gt;%
       str_remove(&quot;/3B_Harmonize_Spatial_Data&quot;)
     
+    #finding and loading in files
     if(file.exists(hubs_path)) {
       df &lt;- read.csv(hubs_path)
       
@@ -1777,22 +1764,20 @@ st_write(state_establishment_combined, here(&quot;Spatial_Data_Harmonized&quot;,
       print(paste(&quot;No file found for type:&quot;, type))
     }
   
+    #converting from df to sf
     sf_hubs &lt;- st_as_sf(hubs, coords = c(&quot;Longitude&quot;, &quot;Latitude&quot;), crs = 4269)
     
     assign(&quot;sf_hubs&quot;, sf_hubs)
 }
     
-#PART 2: MAKING BUSINESS DENSITY LAYER
-    
+#PART 2: making hub density layer
+  #putting subcounties data into ub density layer
   hub_density &lt;- subcounties
   
-  #county points in each grid polygon
+  #assigning hub density counts to each subcounty
   hub_density$hub_count &lt;- lengths(st_intersects(subcounties, sf_hubs))
-  
-  #Removing rows that are not defined
-  hub_density &lt;- filter(hub_density, NAME != &quot;County subdivisions not defined&quot;)
 
-  
+#saving file 
 st_write(hub_density, here(&quot;Spatial_Data_Harmonized&quot;, &quot;hub_density&quot;, &quot;hub_density.shp&quot;), append = TRUE)</code></pre>
 </div>
 

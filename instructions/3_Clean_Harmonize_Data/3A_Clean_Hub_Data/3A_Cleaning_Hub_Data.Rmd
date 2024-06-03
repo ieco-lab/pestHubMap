@@ -39,7 +39,7 @@ for(type in hub_types) {
                     "Raw_Hub_Data", paste0("OSM_PA_", type, ".geojson")) %>%
     str_remove("/3_Clean_Harmonize_Data/3A_Clean_Hub_Data")
   
-  #loading in hub data
+  #loading in hub data and matching CRS with tigris PA boundary
   df <- geojson_sf(data_path) %>%
     st_transform(4269)
   
@@ -78,8 +78,9 @@ for(type in hub_types) {
 }
 ```
 ### **Extracting Latitude & Longitude**
-Next, extract latitude and longitude coordinates into their own columns from point geometry and add addresses.
+Here, hub datasets will be reduced to four columns: Name, Address, Latitude and Longitude. The template is built to only accomodate hub data with those exact columns.
 ```{r extracting lat/long}
+#for loop to extract lat/long coords from geometry and calculate address for each hub dataset
 for (type in hub_types) {
   df <- get(paste0(type, "_points"))
   
@@ -110,7 +111,6 @@ colnames(hospitals_hubs)
 colnames(policeStations_hubs)
 ```
 ### **Filling in Missing Values**
-Filling NAs under the name column
 ```{r cleaning}
 hospitals_hubs$Name <- ifelse(is.na(hospitals_hubs$Name), "Hospital", hospitals_hubs$Name)
 policeStations_hubs$Name <- ifelse(is.na(policeStations_hubs$Name), "Police Station", policeStations_hubs$Name)

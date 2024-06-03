@@ -1637,7 +1637,7 @@ obtained from OpenStreetMap in step 2A.</p>
 library(here) #relative working directory
 library(sf) #manipulation of point data
 library(geojsonsf)#load in GeoJSONs 
-library(tigris) #for state boundary
+library(tigris) #for state boundary 1km
 library(tidygeocoder) #to convert coordinates to addresses</code></pre>
 </div>
 <div id="loading-hub-data" class="section level3">
@@ -1655,7 +1655,7 @@ for(type in hub_types) {
                     &quot;Raw_Hub_Data&quot;, paste0(&quot;OSM_PA_&quot;, type, &quot;.geojson&quot;)) %&gt;%
     str_remove(&quot;/3_Clean_Harmonize_Data/3A_Clean_Hub_Data&quot;)
   
-  #loading in hub data
+  #loading in hub data and matching CRS with tigris PA boundary
   df &lt;- geojson_sf(data_path) %&gt;%
     st_transform(4269)
   
@@ -1696,9 +1696,11 @@ for(type in hub_types) {
 </div>
 <div id="extracting-latitude-longitude" class="section level3">
 <h3><strong>Extracting Latitude &amp; Longitude</strong></h3>
-<p>Next, extract latitude and longitude coordinates into their own
-columns from point geometry and add addresses.</p>
-<pre class="r"><code>for (type in hub_types) {
+<p>Here, hub datasets will be reduced to four columns: Name, Address,
+Latitude and Longitude. The template is built to only accomodate hub
+data with those exact columns.</p>
+<pre class="r"><code>#for loop to extract lat/long coords from geometry and calculate address for each hub dataset
+for (type in hub_types) {
   df &lt;- get(paste0(type, &quot;_points&quot;))
   
   #extracting coordinates
@@ -1729,7 +1731,6 @@ colnames(policeStations_hubs)</code></pre>
 </div>
 <div id="filling-in-missing-values" class="section level3">
 <h3><strong>Filling in Missing Values</strong></h3>
-<p>Filling NAs under the name column</p>
 <pre class="r"><code>hospitals_hubs$Name &lt;- ifelse(is.na(hospitals_hubs$Name), &quot;Hospital&quot;, hospitals_hubs$Name)
 policeStations_hubs$Name &lt;- ifelse(is.na(policeStations_hubs$Name), &quot;Police Station&quot;, policeStations_hubs$Name)
 universities_hubs$Name &lt;- ifelse(is.na(universities_hubs$Name), &quot;University&quot;, universities_hubs$Name)</code></pre>

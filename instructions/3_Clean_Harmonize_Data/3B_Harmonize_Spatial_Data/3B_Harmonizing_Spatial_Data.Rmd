@@ -15,11 +15,11 @@ The following document demonstrates how to harmonize spatial datasets for this e
 ```{r loading packages}
 library(tidyverse) 
 library(here) #relative working directory
-library(tigris) #to load in county outline 
+library(tigris) #geopolitical boundary spatial files
 library(sf) #spatial harmonization
-library(raster) #for the ensemble raster file
-library(terra) #so raster and shapefile can be compared
-library(exactextractr) #for extracting ensemble values to sub county shapefile
+library(raster) #to deal with rasters
+library(terra) #dealing with rasters and shps at the same time
+library(exactextractr) #for extracting ensemble values to subcounties
 ```
 
 ### **Loading Spatial Files**
@@ -60,7 +60,7 @@ counties <- tigris::counties("Pennsylvania", cb = TRUE)
 #saving county outlines
 st_write(counties, here("Spatial_Data_Harmonized", "county_outline", "county_outline.shp"), append = TRUE)
 
-#----world map----
+#----state map----
 state <- tigris::states() %>%
   filter(STUSPS == "PA")
 
@@ -78,7 +78,7 @@ for (county_name in counties_list) {
   county_data <- counties %>%
     filter(NAME == county_name)
   
-  #cropping IN grid to extent of county so code runs quicker
+  #cropping grid to extent of state so code runs quicker
   county_bbox <- st_bbox(county_data)
   county_bbox_buffered <- st_buffer(st_as_sfc(st_bbox(county_bbox)), dist = 1000)
   bbox_crop <- st_crop(km_grid, county_bbox_buffered)
@@ -113,7 +113,7 @@ for (county_name in counties_list) {
 
 ### **Extracting Establishment at Subcounty Level**
 ```{r extracting establishment for PA}
-#extracting values from ensemble tif to put into region 1 1km file
+#extracting values from ensemble tif to subcounties
 establishment_extract <- exact_extract(
   x = establishment, 
   y = subcounties,
@@ -126,23 +126,25 @@ establishment_extract <- data.frame(establishment_extract) %>%
 #combining new df with risk values to old df with the geographic data
 establishment_extract_subcounties <- bind_cols(subcounties, establishment_extract)
 
-#writing file to computer
+#saving file
 st_write(establishment_extract_subcounties, here("Spatial_Data_Harmonized", "establishment_risk", "establishment_risk.shp"), append = TRUE)
 ```
 
 ### **Calculating Density of Hubs at Subcounty Level**
 ```{r hub density}
 #PART 1: Getting hub data
+  #list of hubs
   hub_types <- c("hospitals", "policeStations", "universities")
 
   hubs <- NULL
   
   for (type in hub_types) {
-    
+    #hub file path
     hubs_path <- file.path(here("3A_Clean_Hub_Data", "Hub_Data_Clean", 
                                 paste0(type, ".csv"))) %>%
       str_remove("/3B_Harmonize_Spatial_Data")
     
+    #finding and loading in files
     if(file.exists(hubs_path)) {
       df <- read.csv(hubs_path)
       
@@ -151,22 +153,20 @@ st_write(establishment_extract_subcounties, here("Spatial_Data_Harmonized", "est
       print(paste("No file found for type:", type))
     }
   
+    #converting from df to sf
     sf_hubs <- st_as_sf(hubs, coords = c("Longitude", "Latitude"), crs = 4269)
     
     assign("sf_hubs", sf_hubs)
 }
     
-#PART 2: MAKING BUSINESS DENSITY LAYER
-    
+#PART 2: making hub density layer
+  #putting subcounties data into ub density layer
   hub_density <- subcounties
   
-  #county points in each grid polygon
+  #assigning hub density counts to each subcounty
   hub_density$hub_count <- lengths(st_intersects(subcounties, sf_hubs))
-  
-  #Removing rows that are not defined
-  hub_density <- filter(hub_density, NAME != "County subdivisions not defined")
 
-  
+#saving file 
 st_write(hub_density, here("Spatial_Data_Harmonized", "hub_density", "hub_density.shp"), append = TRUE)
 
 ```
