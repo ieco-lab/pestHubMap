@@ -8,9 +8,9 @@
 
 /************ A. Connect to server ************/
 	$servername = "localhost";
-	$username = "jocelynb_template";
-	$password = "3,p~V*gDxHcP"; //password -> found on cpanel SQL management tab
-    $dbname = "jocelynb_template"; 
+	$username = "template";
+	$password = "PASSWORD"; //password -> found on cpanel SQL management tab
+    $dbname = "template"; 
 	
 
 	
