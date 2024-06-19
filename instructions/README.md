@@ -10,17 +10,17 @@ The instructions folder walks through the process of creating your own pestHubMa
 
 Each step has a corresponding numbered folder that contains directions specific to the step containing the components outlined below:
 ### 1_Identify_Hub_Types
-*1_Identify_Hub_Types.docx*: Explains decision making process for determining potential hubs that can spread focal invasive species with examples. Also lists hub type to be used for template.</li>
+*1_Identify_Hub_Types.pdf*: Explains decision making process for determining potential hubs that can spread focal invasive species with examples. Also lists hub type to be used for template.</li>
 ### 2_Obtain_Hub_Spatial_Data:
-*README – Overview.docx*: Outlines steps 2A and 2B and the respective components which will walkthrough how to obtain open-source data for the template app, along with the downloaded raw data.
+*README.md*: Outlines steps 2A and 2B and the respective components which will walkthrough how to obtain open-source data for the template app, along with the downloaded raw data.
 ### 3_Clean_Harmonize_Data:
-*README – Overview.docx*: Outlines steps 3A and 3B and the respective components on how to clean and harmonize raw data with R code. Also includes downloaded clean and harmonized data.
+*README.md*: Outlines steps 3A and 3B and the respective components on how to clean and harmonize raw data with R code. Also includes downloaded clean and harmonized data.
 ### 4_Build_User_Database:
-*4_Build_User_Database.docx*: Walkthrough on how to build SQL database to store hub data for local and global deployments of the template.
+*4_Build_User_Database.pdf*: Walkthrough on how to build SQL database to store hub data for local and global deployments of the template.
 ### 5_Build_User_Interface:
-*5_Build_User_Interface.docx*: Explains components of the template folder (nested outside of instructions) and code that will directly run template. Will also outline code that can be adjusted to tailor pestHubMap to stakeholder needs.
+*5_Build_User_Interface.pdf*: Explains components of the template folder (nested outside of instructions) and code that will directly run template. Will also outline code that can be adjusted to tailor pestHubMap to stakeholder needs.
 ### 6_Deploy_App
-*6_Deploy_App.docx*: Describes steps to deploy app both locally and globally
+*6_Deploy_App.pdf*: Describes steps to deploy app both locally and globally
 ### 7_Gather_Stakeholder_Feedback
-*7_Gather_Stakeholder_Feedback.docx*: Emphasizes importance of following up with stakeholders and gathering feedback. Includes helpful questions to ask.
+*7_Gather_Stakeholder_Feedback.pdf*: Emphasizes importance of following up with stakeholders and gathering feedback. Includes helpful questions to ask.
 
