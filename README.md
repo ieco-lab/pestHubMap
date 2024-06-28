@@ -12,7 +12,7 @@ interactive applications to map properties that spread invasive species. contact
 
 pestHubMap is a framework to build applications that map hubs at high risk of
 transporting invasive pests among properties. The framework and code repo here can be adapted to build applications for any invasive species. We developed pestHubMap in the context of the spotted lanternfly (SLF; *Lycorma
-delicatula*; see https://iecolab.org/slfDashboard/pestHubMap.html).
+delicatula*; see https://iecolab.org/slfDashboard/pestHubMap.html). In this gitHub we provide an template framework and instructions to practice launching your own app. The end product of the template will look as such: https://www.iecolab.org/pestHubMap/template/ 
 
 -   *Why pestHubMap?*
     -   pest == any invasive species
@@ -23,8 +23,9 @@ delicatula*; see https://iecolab.org/slfDashboard/pestHubMap.html).
 
 ## Template and Instructions
 To facilitate use of the pestHubMap framework, in this repo we provide:
-1. <ins>Template</ins> code for the app which can serve as a framework for your own pestHubMap.
-2. <ins>Instructions</ins> on how to obtain data and build and deploy the template locally and globally. 
+1. <ins>Template</ins> code for the app which can serve as a framework for your own pestHubMap. https://www.iecolab.org/pestHubMap/template/
+2. <ins>Instructions</ins> on how to obtain data and build and deploy the template locally and globally.
+
 
 
 
