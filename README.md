@@ -22,7 +22,7 @@ To facilitate use of the pestHubMap framework, in this repo we provide:
 2. <ins>[Instructions](https://github.com/ieco-lab/pestHubMap/tree/main/template)</ins> on how to obtain data and build and deploy the template locally and globally.
 
 ## FAQ
-Most questions can be addressed by reading though our detailed [Instructions](https://github.com/ieco-lab/pestHubMap/tree/main/template). As more users start working with this repository, we will update this FAQ list. If you have a question, then please add it as a  
+Most questions can be addressed by reading though our detailed [Instructions](https://github.com/ieco-lab/pestHubMap/tree/main/template). As more users start working with this repository, we will update this FAQ list. If you have a question, please add it as an issue or contact mrhelmus@temple.edu.   
 -   *Why pestHubMap?*
     -   pest == any invasive species
     -   Hub == properties that accelerate invasive species spread
