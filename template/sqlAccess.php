@@ -36,8 +36,8 @@
 		echo "<script>var $layerName = L.layerGroup();"; //create cluster layer
 		while($row = mysqli_fetch_assoc($result)) {
 			    $popup = '"<dd>'.strval($row['Name']). '</dd>'
-                        .'<a href=\'https://google.com/maps/place/'.strval($row['Address']).'\' target=\'_blank\'><dd>'.strval($row['Address']).'</dd></a><br>'
-                        .'<a href=\'https://google.com/maps/place/'.strval($row['Latitude'].",".$row['Longitude']).'\' target=\'_blank\'><dd>'.strval($row['Latitude'].",".$row['Longitude']).'</dd></a>"';
+                        .'<a href=\'https://www.google.com/maps/?q='.strval($row['Address']).'\' target=\'_blank\'><dd>'.strval($row['Address']).'</dd></a><br>'
+                        .'<a href=\'https://www.google.com/maps/?q='.strval($row['Latitude'].",".$row['Longitude']).'\' target=\'_blank\'><dd>'.strval($row['Latitude'].",".$row['Longitude']).'</dd></a>"';
                         
 			echo " $layerName.addLayer(L.marker([".$row['Latitude'].",".$row['Longitude']."], {icon: $iconName})
 			.bindPopup(".$popup.",{closeButton:true}));";
