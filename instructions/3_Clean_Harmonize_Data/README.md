@@ -19,7 +19,7 @@
     <ul>
       <li><em>county_1km_grids folder</em>: contains .shapefiles files of 1km grids of every county in PA</li>
       <li><em>county_outline.shp</em>: shapefile that outlines counties in PA</li>
-      <li><em>establihsment_risk</em>: shapefile with spotted lanternfly establishment risk on a scale from 0-1 for each PA subcounty</li>
+      <li><em>establishment_risk</em>: shapefile with spotted lanternfly establishment risk on a scale from 0-1 for each PA subcounty</li>
       <li><em>hub_density</em>: the number of hubs (hospitals, police stations, and universities) in each PA subcounty</li>
     </ul>
   </ul> <br>

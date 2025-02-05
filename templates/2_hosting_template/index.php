@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.0/dist/MarkerCluster.Default.css"> 
 	<script src ="LeafletMarkerCluster/dist/leaflet.markercluster.js"></script>
 
-	<!----------- leafeltGeotiff folder ----------------->
+	<!----------- leafletGeotiff folder ----------------->
     		<script src="https://unpkg.com/plotty@0.2.0/src/plotty.js"></script>
 
 	<script src="LeafletGeotiff/leaflet-geotiff.js"></script>
