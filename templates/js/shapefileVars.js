@@ -1,8 +1,11 @@
 /************** Establishment Layer *************/
+// Load establishment risk shapefile
 var establishment = new L.Shapefile("shapefiles/establishment_risk.zip");
 
-
+// Define color scheme for risk levels
 var colorScheme = ['#fff5f0','#fee0d2','#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d','#a50f15','#67000d', '#360007'];
+
+// Write style function for establishment layer
 function writeStyle() {
     establishment.setStyle(function (feature) {
         var val = feature.properties.estbls_;
@@ -21,10 +24,12 @@ function writeStyle() {
             fillColor: shade,
             fillOpacity: 0.7,
             color: 'white',
-            weight: 1
+            weight: 0.5
         };
     });
 }
+
+// Add establishment layer to map and bind popup with risk level information
 establishment.on('data:loaded', writeStyle).addTo(mymap);
 establishment.on('data:loaded', establishment.bindPopup(function(layer){
 						var mean = Math.round((layer.feature.properties.estbls_) *10);
@@ -33,7 +38,11 @@ establishment.on('data:loaded', establishment.bindPopup(function(layer){
 					})
 );
 
-// Legend
+/************** Legend *************/
+// Define legend color scheme
+var legendScheme = ['#FFFFFF', '#E2E2E2', '#C6C6C6', '#AAAAAA', '#8D8D8D', '#717171', '#555555', '#383838', '#1C1C1C', '#000000']
+
+// Add legend to map
 var legend = L.control({ position: 'bottomleft' });
 legend.onAdd = function (map) {
 
@@ -46,17 +55,17 @@ legend.onAdd = function (map) {
         div.style.width = '20px'; 
         div.style.textAlign = 'center'; // Center the text
 
-         for (var i = colorScheme.length - 1; i >= 0; i--) {
+         for (var i = legendScheme.length - 1; i >= 0; i--) {
             var marginBottom = '0';
 
             div.innerHTML +=
-                '<div style="width: 10px; height: 10px; background:' + colorScheme[i] + '; margin-bottom: ' + marginBottom + '; margin: 0 auto; opacity: 0.7;"></div>';
+                '<div style="width: 10px; height: 10px; background:' + legendScheme[i] + '; margin-bottom: ' + marginBottom + '; margin: 0 auto; opacity: 0.7;"></div>';
         }
     } else {
 
-        for (var i = colorScheme.length - 1; i >= 0; i--) {
+        for (var i = legendScheme.length - 1; i >= 0; i--) {
             div.innerHTML +=
-                '<br><i style="background:' + colorScheme[i] + '"></i>';
+                '<br><i style="background:' + legendScheme[i] + '"></i>';
         }
     }
 
@@ -68,8 +77,10 @@ legend.onAdd = function (map) {
 legend.addTo(mymap);
 
 /*********** Hub Density ************/
+// Load hub density shapefile
 var hubs = new L.Shapefile("shapefiles/hub_density.zip");
 
+// Write style function for hub density layer
 function writeHubsStyle() {
     hubs.setStyle(function (feature) {
         var hubsval = feature.properties.hub_count;
@@ -88,10 +99,12 @@ function writeHubsStyle() {
             fillColor: shade,
             fillOpacity: 0.7,
             color: 'white',
-            weight: 1
+            weight: 0.5
         };
     });
 }
+
+// Add hub density layer to map and bind popup with hub density information
 hubs.on('data:loaded', writeHubsStyle);
 hubs.on('data:loaded', hubs.bindPopup(function(layer){
 						var hubslisted =  "<dd>Subdivision: " +layer.feature.properties.NAME+"<br> Number of Hubs: "+ layer.feature.properties.hub_count +"</dd>";
@@ -100,6 +113,7 @@ hubs.on('data:loaded', hubs.bindPopup(function(layer){
 );
 
 /************** County Outlines *************/
+// Load county outline shapefile
 var counties = new L.Shapefile('shapefiles/county_outline.zip');
 
 //add popups
@@ -109,7 +123,7 @@ var labeledCount =counties.bindPopup(function(layer){
 })
 
 /*********** County 1km Grids ************/
-
+// Load county 1km grid shapefiles
 var countyShapefiles = 
 [
     Adams = new L.Shapefile('shapefiles/county_1km_grids/Adams.zip'),
@@ -197,76 +211,76 @@ for(var i=0; i<countyShapefiles.length; i++){
 
 /********** Layers grouped *********/
 var countyList ={
-	"ESTABLISHMENT" : establishment,
-	"TRANSPORT" : hubs,
-    "COUNTIES": labeledCount,
-    "Adams" : bindedCounties[0],
-    "Allegheny" : bindedCounties[1],
-    "Armstrong" : bindedCounties[2],
-    "Beaver" : bindedCounties[3],
-    "Bedford" : bindedCounties[4],
-    "Berks" : bindedCounties[5],
-    "Blair" : bindedCounties[6],
-    "Bradford" : bindedCounties[7],
-    "Bucks" : bindedCounties[8],
-    "Butler" : bindedCounties[9],
-    "Cambria" : bindedCounties[10],
-    "Cameron" : bindedCounties[11],
-    "Carbon" : bindedCounties[12],
-    "Centre" : bindedCounties[13],
-    "Chester" : bindedCounties[14],
-    "Clarion" : bindedCounties[15],
-    "Clearfield" : bindedCounties[16],
-    "Clinton" : bindedCounties[17],
-    "Columbia" : bindedCounties[18],
-    "Crawford" : bindedCounties[19],
-    "Cumberland" : bindedCounties[20],
-    "Dauphin" : bindedCounties[21],
-    "Delaware" : bindedCounties[22],
-    "Elk" : bindedCounties[23],
-    "Erie" : bindedCounties[24],
-    "Fayette" : bindedCounties[25],
-    "Forest" : bindedCounties[26],
-    "Franklin" : bindedCounties[27],
-    "Fulton" : bindedCounties[28],
-    "Greene" : bindedCounties[29],
-    "Huntingdon" : bindedCounties[30],
-    "Indiana" : bindedCounties[31],
-    "Jefferson" : bindedCounties[32],
-    "Juniata" : bindedCounties[33],
-    "Lackawanna" : bindedCounties[34],
-    "Lancaster" : bindedCounties[35],
-    "Lawrence" : bindedCounties[36],
-    "Lebanon" : bindedCounties[37],
-    "Lehigh" : bindedCounties[38],
-    "Luzerne" : bindedCounties[39],
-    "Lycoming" : bindedCounties[40],
-    "McKean" : bindedCounties[41],
-    "Mercer" : bindedCounties[42],
-    "Mifflin" : bindedCounties[43],
-    "Monroe" : bindedCounties[44],
-    "Montgomery" : bindedCounties[45],
-    "Montour" : bindedCounties[46],
-    "Northampton" : bindedCounties[47],
-    "Northumberland" : bindedCounties[48],
-    "Perry" : bindedCounties[49],
-    "Philadelphia" : bindedCounties[50],
-    "Pike" : bindedCounties[51],
-    "Potter" : bindedCounties[52],
-    "Schuylkill" : bindedCounties[53],
-    "Snyder" : bindedCounties[54],
-    "Somerset" : bindedCounties[55],
-    "Sullivan" : bindedCounties[56],
-    "Susquehanna" : bindedCounties[57],
-    "Tioga" : bindedCounties[58],
-    "Union" : bindedCounties[59],
-    "Venango" : bindedCounties[60],
-    "Warren" : bindedCounties[61],
-    "Washington" : bindedCounties[62],
-    "Wayne" : bindedCounties[63],
-    "Westmoreland" : bindedCounties[64],
-    "Wyoming" : bindedCounties[65],
-    "York" : bindedCounties[66]
+"<strong>Transport</strong>": hubs,
+"<strong>Establishment</strong>" : establishment,
+"<strong>County Lines</strong>": labeledCount,
+"<em>Adams (grid)</em>": bindedCounties[0], 
+"<em>Allegheny</em>": bindedCounties[1], 
+"<em>Armstrong</em>": bindedCounties[2],
+"<em>Beaver</em>": bindedCounties[3],
+"<em>Bedford</em>": bindedCounties[4],
+"<em>Berks</em>": bindedCounties[5],
+"<em>Blair</em>": bindedCounties[6],
+"<em>Bradford</em>": bindedCounties[7],
+"<em>Bucks</em>": bindedCounties[8],
+"<em>Butler</em>": bindedCounties[9],
+"<em>Cambria</em>": bindedCounties[10],
+"<em>Cameron</em>": bindedCounties[11],
+"<em>Carbon</em>": bindedCounties[12],
+"<em>Centre</em>": bindedCounties[13],
+"<em>Chester</em>": bindedCounties[14],
+"<em>Clarion</em>": bindedCounties[15],
+"<em>Clearfield</em>": bindedCounties[16],
+"<em>Clinton</em>": bindedCounties[17],
+"<em>Columbia</em>": bindedCounties[18],
+"<em>Crawford</em>": bindedCounties[19],
+"<em>Cumberland</em>": bindedCounties[20],
+"<em>Dauphin</em>": bindedCounties[21],
+"<em>Delaware</em>": bindedCounties[22],
+"<em>Elk</em>": bindedCounties[23],
+"<em>Erie</em>": bindedCounties[24],
+"<em>Fayette</em>": bindedCounties[25],
+"<em>Forest</em>": bindedCounties[26],
+"<em>Franklin</em>": bindedCounties[27],
+"<em>Fulton</em>": bindedCounties[28],
+"<em>Greene</em>": bindedCounties[29],
+"<em>Huntingdon</em>": bindedCounties[30],
+"<em>Indiana</em>": bindedCounties[31],
+"<em>Jefferson</em>": bindedCounties[32],
+"<em>Juniata</em>": bindedCounties[33],
+"<em>Lackawanna</em>": bindedCounties[34],
+"<em>Lancaster</em>": bindedCounties[35],
+"<em>Lawrence</em>": bindedCounties[36],
+"<em>Lebanon</em>": bindedCounties[37],
+"<em>Lehigh</em>": bindedCounties[38],
+"<em>Luzerne</em>": bindedCounties[39],
+"<em>Lycoming</em>": bindedCounties[40],
+"<em>McKean</em>": bindedCounties[41],
+"<em>Mercer</em>": bindedCounties[42],
+"<em>Mifflin</em>": bindedCounties[43],
+"<em>Monroe</em>": bindedCounties[44],
+"<em>Montgomery</em>": bindedCounties[45],
+"<em>Montour</em>": bindedCounties[46],
+"<em>Northampton</em>": bindedCounties[47],
+"<em>Northumberland</em>": bindedCounties[48],
+"<em>Perry</em>": bindedCounties[49],
+"<em>Philadelphia</em>": bindedCounties[50],
+"<em>Pike</em>": bindedCounties[51],
+"<em>Potter</em>": bindedCounties[52],
+"<em>Schuylkill</em>": bindedCounties[53],
+"<em>Snyder</em>": bindedCounties[54],
+"<em>Somerset</em>": bindedCounties[55],
+"<em>Sullivan</em>": bindedCounties[56],
+"<em>Susquehanna</em>": bindedCounties[57],
+"<em>Tioga</em>": bindedCounties[58],
+"<em>Union</em>": bindedCounties[59],
+"<em>Venango</em>": bindedCounties[60],
+"<em>Warren</em>": bindedCounties[61],
+"<em>Washington</em>": bindedCounties[62],
+"<em>Wayne</em>": bindedCounties[63],
+"<em>Westmoreland</em>": bindedCounties[64],
+"<em>Wyoming</em>": bindedCounties[65],
+"<em>York</em>": bindedCounties[66]
 };
 
 

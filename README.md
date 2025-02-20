@@ -5,7 +5,7 @@
 
 ## Citation
 
-Helmus, MR, VA Ramirez, EJ Zangakis, JM Gleditsch, IG Smith. *in prep* pestHubMap: A framework to design
+Helmus, MR, VA Ramirez, EJ Zangakis, JM Gleditsch, IG Smith, HM Joseph. *in prep* pestHubMap: A framework to design
 interactive applications to map properties that spread invasive species. contact mrhelmus@temple.edu
 
 ## Description

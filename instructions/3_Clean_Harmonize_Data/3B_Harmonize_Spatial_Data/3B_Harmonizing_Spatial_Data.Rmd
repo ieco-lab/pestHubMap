@@ -160,7 +160,7 @@ st_write(establishment_extract_subcounties, here("Spatial_Data_Harmonized", "est
 }
     
 #PART 2: making hub density layer
-  #putting subcounties data into ub density layer
+  #putting subcounties data into hub density layer
   hub_density <- subcounties
   
   #assigning hub density counts to each subcounty

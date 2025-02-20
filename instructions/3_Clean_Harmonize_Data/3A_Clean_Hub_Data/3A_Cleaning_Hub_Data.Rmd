@@ -78,7 +78,7 @@ for(type in hub_types) {
 }
 ```
 ### **Extracting Latitude & Longitude**
-Here, hub datasets will be reduced to four columns: Name, Address, Latitude and Longitude. The template is built to only accomodate hub data with those exact columns.
+Here, hub datasets will be reduced to four columns: Name, Address, Latitude and Longitude. The template is built to only accommodate hub data with those exact columns.
 ```{r extracting lat/long}
 #for loop to extract lat/long coords from geometry and calculate address for each hub dataset
 for (type in hub_types) {
