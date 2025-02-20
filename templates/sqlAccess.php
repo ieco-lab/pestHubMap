@@ -28,26 +28,27 @@
 		echo "Connected successfully<br><br>";
 	} 
 /************** B. function sqlPull() *************************/	
- function sqlPull($connection, $tableName, $layerName, $iconName){
+function sqlPull($connection, $tableName, $layerName, $iconName){
 	$sql = "SELECT * FROM $tableName";
 	$result = mysqli_query($connection, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		// output data of each row
 		echo "<script>var $layerName = L.layerGroup();"; //create cluster layer
 		while($row = mysqli_fetch_assoc($result)) {
-			    $popup = '"<dd>'.strval($row['Name']). '</dd>'
-                        .'<a href=\'https://www.google.com/maps/?q='.strval($row['Address']).'\' target=\'_blank\'><dd>'.strval($row['Address']).'</dd></a><br>'
-                        .'<a href=\'https://www.google.com/maps/?q='.strval($row['Latitude'].",".$row['Longitude']).'\' target=\'_blank\'><dd>'.strval($row['Latitude'].",".$row['Longitude']).'</dd></a>"';
-                        
-			echo " $layerName.addLayer(L.marker([".$row['Latitude'].",".$row['Longitude']."], {icon: $iconName})
-			.bindPopup(".$popup.",{closeButton:true}));";
+			    $popupContent = '"<dd>'.strval($row['Name']). '</dd>'
+                        .'<a href=\'https://www.google.com/maps/?q='.strval($row['Address']).'\' target=\'_blank\'><dd>'.strval($row['Address']).'</dd></a><br>' //add google maps link to address of hub
+                        .'<a href=\'https://www.google.com/maps/?q='.strval($row['Latitude'].",".$row['Longitude']).'\' target=\'_blank\'><dd>'.strval($row['Latitude'].",".$row['Longitude']).'</dd></a>"'; //add google maps link to coordinates of hub                        
+			echo " $layerName.addLayer(L.marker([".$row['Latitude'].",".$row['Longitude']."], {icon: $iconName}) 
+			.bindPopup(".$popupContent.",{closeButton:true, autoPan: false, keepInView: true}));"; //add marker to cluster layer
 		}
+
 		echo "</script>"; //add cluster layer to map!
 	} else {
     echo "0 results $tableName";
 	}
 }
 
+//call sqlPull() for each table
 sqlPull($conn, "hospitals", "hospitalsLayer", "hospital");
 
 sqlPull($conn, "policestations", "policeStationsLayer", "badge");

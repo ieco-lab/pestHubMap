@@ -1,8 +1,11 @@
 /************** Establishment Layer *************/
+// Load establishment risk shapefile
 var establishment = new L.Shapefile("shapefiles/establishment_risk.zip");
 
-
+// Define color scheme for risk levels
 var colorScheme = ['#fff5f0','#fee0d2','#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d','#a50f15','#67000d', '#360007'];
+
+// Write style function for establishment layer
 function writeStyle() {
     establishment.setStyle(function (feature) {
         var val = feature.properties.estbls_;
@@ -25,6 +28,8 @@ function writeStyle() {
         };
     });
 }
+
+// Add establishment layer to map and bind popup with risk level information
 establishment.on('data:loaded', writeStyle).addTo(mymap);
 establishment.on('data:loaded', establishment.bindPopup(function(layer){
 						var mean = Math.round((layer.feature.properties.estbls_) *10);
@@ -33,9 +38,11 @@ establishment.on('data:loaded', establishment.bindPopup(function(layer){
 					})
 );
 
-// Legend
+/************** Legend *************/
+// Define legend color scheme
 var legendScheme = ['#FFFFFF', '#E2E2E2', '#C6C6C6', '#AAAAAA', '#8D8D8D', '#717171', '#555555', '#383838', '#1C1C1C', '#000000']
 
+// Add legend to map
 var legend = L.control({ position: 'bottomleft' });
 legend.onAdd = function (map) {
 
@@ -70,8 +77,10 @@ legend.onAdd = function (map) {
 legend.addTo(mymap);
 
 /*********** Hub Density ************/
+// Load hub density shapefile
 var hubs = new L.Shapefile("shapefiles/hub_density.zip");
 
+// Write style function for hub density layer
 function writeHubsStyle() {
     hubs.setStyle(function (feature) {
         var hubsval = feature.properties.hub_count;
@@ -94,6 +103,8 @@ function writeHubsStyle() {
         };
     });
 }
+
+// Add hub density layer to map and bind popup with hub density information
 hubs.on('data:loaded', writeHubsStyle);
 hubs.on('data:loaded', hubs.bindPopup(function(layer){
 						var hubslisted =  "<dd>Subdivision: " +layer.feature.properties.NAME+"<br> Number of Hubs: "+ layer.feature.properties.hub_count +"</dd>";
@@ -102,6 +113,7 @@ hubs.on('data:loaded', hubs.bindPopup(function(layer){
 );
 
 /************** County Outlines *************/
+// Load county outline shapefile
 var counties = new L.Shapefile('shapefiles/county_outline.zip');
 
 //add popups
@@ -111,7 +123,7 @@ var labeledCount =counties.bindPopup(function(layer){
 })
 
 /*********** County 1km Grids ************/
-
+// Load county 1km grid shapefiles
 var countyShapefiles = 
 [
     Adams = new L.Shapefile('shapefiles/county_1km_grids/Adams.zip'),
@@ -200,9 +212,7 @@ for(var i=0; i<countyShapefiles.length; i++){
 /********** Layers grouped *********/
 var countyList ={
 "<strong>Transport</strong>": hubs,
-"<strong>Establishment</strong>" : maxent,
-"<strong> Railways</strong>": railways,
-"<strong>Vineyard Area</strong>": impact,
+"<strong>Establishment</strong>" : establishment,
 "<strong>County Lines</strong>": labeledCount,
 "<em>Adams (grid)</em>": bindedCounties[0], 
 "<em>Allegheny</em>": bindedCounties[1], 
