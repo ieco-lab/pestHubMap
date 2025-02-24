@@ -1,4 +1,4 @@
-# pestHubMap Code Repo
+# PHM_PA_LakeErieGrapeBelt Code Repo
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -17,7 +17,7 @@ delicatula*). We provide a template framework and instructions to practice launc
 See the examples that we have built for spotted lanternfly transport hubs in the USA states of [Pennsylvania](https://iecolab.org/slfDashboard/pestHubMap/pa_risk.html), [Illinois](https://iecolab.org/slfDashboard/pestHubMap/illinois_risk.html), and [many others](https://iecolab.org/slfDashboard/pestHubMap.html).
 
 ## Template and Instructions
-To facilitate the use of the pestHubMap framework, in this repo we provide:
+To facilitate the use of the pestHubMap framework, we provide:
 1. <ins>[Template](https://github.com/ieco-lab/pestHubMap/tree/main/instructions)</ins> code for the app which can serve as a framework for your pestHubMap. You can see a working version of the template app [here](https://www.iecolab.org/pestHubMap/template/).
 2. <ins>[Instructions](https://github.com/ieco-lab/pestHubMap/tree/main/template)</ins> on how to obtain data and build and deploy the template locally and globally.
 
