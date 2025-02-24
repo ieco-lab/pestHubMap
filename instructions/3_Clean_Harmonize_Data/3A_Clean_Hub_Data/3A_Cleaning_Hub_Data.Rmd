@@ -1,0 +1,127 @@
+---
+title: "3A. Cleaning Raw Hub Data From OpenStreetMap"
+author: "iEcoLab"
+date: "May 29, 2024"
+output:
+  html_document:
+    df_print: paged
+---
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, results = 'hide') 
+```
+
+The following document outlines how to clean and harmonize the data obtained from OpenStreetMap in step 2A. 
+
+### **Loading Packages**
+```{r packages}
+library(tidyverse)
+library(here) #relative working directory
+library(sf) #manipulation of point data
+library(geojsonsf)#load in GeoJSONs 
+library(tigris) #for state boundary 1km
+library(tidygeocoder) #to convert coordinates to addresses
+
+```
+
+
+### **Loading Hub Data**
+```{r loading in POI}
+#list of hub types
+hub_types <- c("hospitals", "policeStations", "universities")
+
+#PA boundary
+PA <- tigris::states() %>%
+  filter(NAME == "Pennsylvania")
+
+for(type in hub_types) {
+  #hub data file path 
+  data_path <- here("2_Obtain_Hub_Spatial_Data", "2A_Obtain_Hub_Data", 
+                    "Raw_Hub_Data", paste0("OSM_PA_", type, ".geojson")) %>%
+    str_remove("/3_Clean_Harmonize_Data/3A_Clean_Hub_Data")
+  
+  #loading in hub data and matching CRS with tigris PA boundary
+  df <- geojson_sf(data_path) %>%
+    st_transform(4269)
+  
+  #removing hubs outside of PA
+  df_cropped <- st_intersection(df,PA)
+  
+  assign(paste0(type, "_OSM"), df_cropped)
+}
+```
+### **Harmonizing Geometry Types**
+A closer look at the hub data reveals each type has multiple geometry types within the data. All hubs should be a singular point.
+```{r converting to point geometry}
+#checking geometry types
+unique(st_geometry_type(universities_OSM)) #polygon, multipolygon, point
+unique(st_geometry_type(policeStations_OSM)) #polygon, point
+unique(st_geometry_type(hospitals_OSM)) #polygon, point
+
+#For loop to covert all observations in each hub dataset to point geometry
+for(type in hub_types) {
+  df <- get(paste0(type, "_OSM"))
+  
+  #filtering for geometry types polygon & multipolygons and reducing to centroid
+  df_polys <- df %>%
+    filter(st_geometry_type(df) %in% c("POLYGON", "MULTIPOLYGON")) %>%
+    st_centroid()
+  
+  #isolating geometry type POINTS
+  df_points <- df %>%
+    filter(st_geometry_type(df) %in% "POINT")
+  
+  #combining reduced polygons and points back together
+  df_combined <- bind_rows(df_polys, df_points)
+  
+  assign(paste0(type, "_points"), df_combined)
+  
+}
+```
+### **Extracting Latitude & Longitude**
+Here, hub datasets will be reduced to four columns: Name, Address, Latitude and Longitude. The template is built to only accommodate hub data with those exact columns.
+```{r extracting lat/long}
+#for loop to extract lat/long coords from geometry and calculate address for each hub dataset
+for (type in hub_types) {
+  df <- get(paste0(type, "_points"))
+  
+  #extracting coordinates
+  coords <- st_coordinates(df)
+  
+  #inserting coords into lat/long columns
+  df_selectcols <- data.frame(
+    Name = df$name,
+    Latitude = coords[, "Y"],
+    Longitude = coords[, "X"]
+  )
+  
+  #calculating addresses using reverse_geocode (will take some time, ~1   second/observation)
+  df_address <- df_selectcols %>%
+    reverse_geocode(lat = Latitude,
+                    long = Longitude,
+                    method = 'osm',
+                    address = Address
+                    )
+
+  assign(paste0(type, "_hubs"), df_address)
+}
+
+#checking columns have the correct names
+colnames(universities_hubs)
+colnames(hospitals_hubs)
+colnames(policeStations_hubs)
+```
+### **Filling in Missing Values**
+```{r cleaning}
+hospitals_hubs$Name <- ifelse(is.na(hospitals_hubs$Name), "Hospital", hospitals_hubs$Name)
+policeStations_hubs$Name <- ifelse(is.na(policeStations_hubs$Name), "Police Station", policeStations_hubs$Name)
+universities_hubs$Name <- ifelse(is.na(universities_hubs$Name), "University", universities_hubs$Name)
+```
+
+### **Saving Cleaned Data**
+```{r saving data}
+for(type in hub_types) {
+  df <- get(paste0(type, "_hubs"))
+  write.csv(df, here("Hub_Data_Clean", paste0(type, ".csv")), row.names = FALSE)
+}
+```
+
