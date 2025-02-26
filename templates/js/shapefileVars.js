@@ -112,6 +112,184 @@ hubs.on('data:loaded', hubs.bindPopup(function(layer){
 					})
 );
 
+/**Vineyard Acerage***/
+
+//This shows the presence and absence of vineyards.
+
+var vineyard = new L.Shapefile("shapefiles/grape_layer.zip");
+
+var vineyardScheme = ['#F8F4F9','#E5D4E8','#D2B4D6','#BE93C5','#AB72B4','#9852A3','#853193','#721F82','#5F1271','#4C0E60'];
+
+function vineyardStyle() {
+    vineyard.setStyle(function (feature) {
+        var grapeval = feature.properties.grp_vl_;
+        var grapeshade = grapeval <= 1 ? vineyardScheme[0] :
+                    grapeval <= 2 ? vineyardScheme[1] :
+                    grapeval <= 3 ? vineyardScheme[2] :
+                    grapeval <= 4 ? vineyardScheme[3] :
+                    grapeval <= 5 ? vineyardScheme[4] :
+                    grapeval <= 6 ? vineyardScheme[5] :
+                    grapeval <= 7 ? vineyardScheme[6] :
+					vineyardScheme[7];
+		
+
+        return {
+            fillColor: grapeshade,
+            fillOpacity: 0.7,
+            color: 'white',
+            weight: 0.5
+        };
+    });
+}
+
+vineyard.on('data:loaded', vineyardStyle).addTo(mymap);
+
+
+vineyard.on('data:loaded', vineyard.bindPopup(function(layer) {
+	var acreage = Math.round(layer.feature.properties.grp_vl_);
+	var presence = acreage > 0 ? "Vineyard Area Present" : "Vineyard Area Absent";
+    var info = presence + "</dd>";
+    return info;
+}));
+
+var min_value = 0;
+
+/*********** Survey Layer ***********/
+//Originally named Trapping Effort, now renamed to Survey Effort
+
+var surveyTOTAL = new L.Shapefile("shapefiles/density_survey.zip"); 
+
+
+//SURVEY COLOR SCHEME 
+var SurveycolorScheme = ['#f7fbff', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'];
+
+function writeSurveyStyle(layer) {
+    layer.setStyle(function (feature) {
+        var srvy = feature.properties.srvy_cn;
+        var shadeBlue = srvy == 0 ? SurveycolorScheme[0] :
+                        srvy <= 1 ? SurveycolorScheme[1] :
+                        srvy <= 3 ? SurveycolorScheme[2] :
+                        srvy <= 5 ? SurveycolorScheme[3] :
+                        srvy <= 7 ? SurveycolorScheme[4] :
+                        srvy <= 10 ? SurveycolorScheme[5] :
+                        srvy <= 20 ? SurveycolorScheme[6] :
+                        srvy >= 30 ? SurveycolorScheme[7] :
+                                    SurveycolorScheme[8] ;
+
+        return {
+            fillColor: shadeBlue,
+            fillOpacity: 0.7,
+            color: 'white',
+            weight: 0.5
+        };
+    });
+}
+// ADDING COLOR SCHEME & POPUPS TO SURVEY LAYERS 
+function bindPopupToSurveyLayer(layer, surveyYear) {
+    layer.on('data:loaded', function () {
+        writeSurveyStyle(layer);
+    });
+
+    layer.on('data:loaded', layer.bindPopup(function (layer) {
+        var listed = `<dd>USNG: ${layer.feature.properties.USNG}<br> Number of Surveys: ${layer.feature.properties.srvy_cn}</dd>`;
+        return listed;
+    }));
+}
+bindPopupToSurveyLayer(surveyTOTAL, "ALL SURVEYS");
+
+/*********** Density Layer ***********/
+
+var densityTOTAL = new L.Shapefile("shapefiles/density_survey.zip");
+
+//Density COLOR SCHEME 
+var DensitycolorScheme = ['#fff5f0','#fee0d2','#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d','#a50f15','#67000d', '#360007'];
+
+function writeDensityStyle(layer) {
+    layer.setStyle(function (feature) {
+        var dnst = feature.properties.max_pa;
+        var shade = dnst == 0 ? DensitycolorScheme[0] : DensitycolorScheme[6];
+
+        return {
+            fillColor: shade,
+            fillOpacity: 0.7,
+            color: 'white',
+            weight: 0.5
+        };
+    });
+}
+
+
+function bindPopupToDensityLayer(layer, densityYear) {
+    layer.on('data:loaded', function () {
+        writeDensityStyle(layer);
+    });
+
+    layer.on('data:loaded', layer.bindPopup(function (layer) {
+        var presence = 
+            layer.feature.properties.max_pa == 0 ? "SLF Absent" :
+            "SLF Found";
+
+        var listed = `<dd>USNG: ${layer.feature.properties.USNG}<br>${presence}</dd>`;
+        return listed;
+    }));
+}
+
+bindPopupToDensityLayer(densityTOTAL, "SLF Density");
+
+
+/*********** Railways Layer **********/
+var parails = new L.Shapefile("shapefiles/PaRailLines2023_10.zip");
+
+var railwayStyle = {
+    color: "red", // color of line
+    weight: 5, // weight or thickness of the line
+    opacity: 0.7 // opacity of line (0 for full transparency, 1 for full opacity)
+};
+
+// Create a feature group to combine both shapefiles
+var railways = L.featureGroup();
+
+// Set style and add Pennsylvania railways shapefile to the feature group
+parails.once('data:loaded', function() {
+    parails.setStyle(railwayStyle);
+    railways.addLayer(parails);
+});
+
+/*********** Highways Layer **********/
+var pahigh = new L.Shapefile("shapefiles/highways.zip");
+
+var highwayStyle = {
+    color: "orange", // color of line
+    weight: 5, // weight or thickness of the line
+    opacity: 0.7 // opacity of line (0 for full transparency, 1 for full opacity)
+};
+
+// Create a feature group to combine both shapefiles
+var highways = L.featureGroup();
+
+// Set style and add Pennsylvania railways shapefile to the feature group
+pahigh.once('data:loaded', function() {
+    pahigh.setStyle(highwayStyle);
+    highways.addLayer(pahigh);
+});
+
+/************** Municipality Outlines *************/
+var municipalities = new L.Shapefile('shapefiles/muncipalities.zip', {
+    style: function(feature) {
+        return {
+            fillColor: 'transparent', 
+            color: '#000000',           
+            weight: 3                
+        };
+    }
+});
+
+//add popups
+var labeledMuni =municipalities.bindPopup(function(layer){
+		var listed =  "<dd>"+layer.feature.properties.MUNCIPA+"</dd>"
+		return listed
+})
+
 /************** County Outlines *************/
 // Load county outline shapefile
 var counties = new L.Shapefile('shapefiles/county_outline.zip');
@@ -211,9 +389,15 @@ for(var i=0; i<countyShapefiles.length; i++){
 
 /********** Layers grouped *********/
 var countyList ={
-"<strong>Transport</strong>": hubs,
 "<strong>Establishment</strong>" : establishment,
+"<strong>Transport</strong>" : hubs,
+"<strong>Vineyards</strong>" : vineyard,    
+"<strong>Survey Efforts (2022-2023)</strong>" : surveyTOTAL,
+"<strong>SLF Found</strong>" :  densityTOTAL,
+"<strong>Railways</strong>" : railways,
+"<strong>Highways</strong>" : highways,
 "<strong>County Lines</strong>": labeledCount,
+"<strong>Municipality Lines</strong>": labeledMuni,
 "<em>Adams (grid)</em>": bindedCounties[0], 
 "<em>Allegheny</em>": bindedCounties[1], 
 "<em>Armstrong</em>": bindedCounties[2],
