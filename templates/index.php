@@ -4,7 +4,7 @@
 
 	<!-- Tab name and icon -->
 	<title>pestHubMap Template</title> 	<!-- Title for Website tab -->
-	<link rel="icon" href="images/logo.png"> <!-- Icon for Website tab -->
+	<link rel="icon" href="images/web_icon.jpg"> <!-- Icon for Website tab -->
 	
 <!------********** A. LOADING FOLDERS AND FILES *********----------->
 	<!---------- leaflet folder ------------------>

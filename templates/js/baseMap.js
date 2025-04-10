@@ -25,3 +25,77 @@ var mapboxSatelliteStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbo
 });
 
 mapboxSatelliteStreets.addTo(mymap);
+
+
+//---------------------------------------------------- Help Button ---------------------------------
+L.Control.Help = L.Control.extend({
+    onAdd: function(map) {
+      const btn = L.DomUtil.create('button', 'leaflet-bar');
+      btn.style.backgroundColor = 'white';
+      btn.style.width = '70px';
+      btn.style.height = '70px';
+
+      const img = document.createElement('img');
+      img.src = 'images/help.png'; // path to your help icon
+      img.alt = 'Help';
+      img.style.width = '90%';
+      img.style.height = '90%';
+      img.style.objectFit = 'contain';
+      img.style.pointerEvents = 'none'; // Prevent click from hitting image instead of button
+
+    btn.appendChild(img);
+
+  
+      btn.onclick = function () {
+        window.open('images/pestHubMap_HelpFile.pdf');
+      };
+  
+      return btn;
+    },
+    onRemove: function(map) {}
+  });
+  
+  L.control.Help = function(opts) {
+    return new L.Control.Help(opts);
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    L.control.Help({ position: 'bottomright' }).addTo(mymap);
+  });
+
+
+  //---------------------------------------------------- Refresh Button-------------------------------------------------
+	L.Control.Refresh = L.Control.extend({
+    onAdd: function(map) {
+      const btn = L.DomUtil.create('button', 'leaflet-bar');
+      btn.style.backgroundColor = 'white';
+      btn.style.width = '70px';
+      btn.style.height = '70px';
+
+      const img = document.createElement('img');
+      img.src = 'images/refresh.png'; // path to your refresh icon
+      img.alt = 'Refresh';
+      img.style.width = '90%';
+      img.style.height = '90%';
+      img.style.objectFit = 'contain';
+      img.style.pointerEvents = 'none'; // Prevent click from hitting image instead of button
+
+    btn.appendChild(img);
+
+  
+      btn.onclick = function () {
+        location.reload();
+      };
+  
+      return btn;
+    },
+    onRemove: function(map) {}
+  });
+  
+  L.control.refresh = function(opts) {
+    return new L.Control.Refresh(opts);
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    L.control.refresh({ position: 'bottomright' }).addTo(mymap);
+  });
