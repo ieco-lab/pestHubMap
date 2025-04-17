@@ -255,6 +255,94 @@ parails.once('data:loaded', function() {
     railways.addLayer(parails);
 });
 
+// for big regions such as california, use below code
+
+var shapefilePaths = [
+    { path: "shapefiles/railways/Adams_railways.zip", name: "Adams" },
+    { path: "shapefiles/railways/Ashland_railways.zip", name: "Ashland" },
+    { path: "shapefiles/railways/Barron_railways.zip", name: "Barron" },
+    { path: "shapefiles/railways/Bayfield_railways.zip", name: "Bayfield" },
+    { path: "shapefiles/railways/Brown_railways.zip", name: "Brown" },
+    { path: "shapefiles/railways/Buffalo_railways.zip", name: "Buffalo" },
+    { path: "shapefiles/railways/Calumet_railways.zip", name: "Calumet" },
+    { path: "shapefiles/railways/Chippewa_railways.zip", name: "Chippewa" },
+    { path: "shapefiles/railways/Clark_railways.zip", name: "Clark" },
+    { path: "shapefiles/railways/Columbia_railways.zip", name: "Columbia" },
+    { path: "shapefiles/railways/Crawford_railways.zip", name: "Crawford" },
+    { path: "shapefiles/railways/Dane_railways.zip", name: "Dane" },
+    { path: "shapefiles/railways/Dodge_railways.zip", name: "Dodge" },
+    { path: "shapefiles/railways/Douglas_railways.zip", name: "Douglas" },
+    { path: "shapefiles/railways/Dunn_railways.zip", name: "Dunn" },
+    { path: "shapefiles/railways/Eau Claire_railways.zip", name: "Eau Claire" },
+    { path: "shapefiles/railways/Fond du Lac_railways.zip", name: "Fond du Lac" },
+    { path: "shapefiles/railways/Forest_railways.zip", name: "Forest" },
+    { path: "shapefiles/railways/Grant_railways.zip", name: "Grant" },
+    { path: "shapefiles/railways/Green_railways.zip", name: "Green" },
+    { path: "shapefiles/railways/Green Lake_railways.zip", name: "Green Lake" },
+    { path: "shapefiles/railways/Iowa_railways.zip", name: "Iowa" },
+    { path: "shapefiles/railways/Iron_railways.zip", name: "Iron" },
+    { path: "shapefiles/railways/Jackson_railways.zip", name: "Jackson" },
+    { path: "shapefiles/railways/Jefferson_railways.zip", name: "Jefferson" },
+    { path: "shapefiles/railways/Juneau_railways.zip", name: "Juneau" },
+    { path: "shapefiles/railways/Kenosha_railways.zip", name: "Kenosha" },
+    { path: "shapefiles/railways/Kewaunee_railways.zip", name: "Kewaunee" },
+    { path: "shapefiles/railways/La Crosse_railways.zip", name: "La Crosse" },
+    { path: "shapefiles/railways/Lincoln_railways.zip", name: "Lincoln" },
+    { path: "shapefiles/railways/Manitowoc_railways.zip", name: "Manitowoc" },
+    { path: "shapefiles/railways/Marathon_railways.zip", name: "Marathon" },
+    { path: "shapefiles/railways/Marinette_railways.zip", name: "Marinette" },
+    { path: "shapefiles/railways/Marquette_railways.zip", name: "Marquette" },
+    { path: "shapefiles/railways/Milwaukee_railways.zip", name: "Milwaukee" },
+    { path: "shapefiles/railways/Monroe_railways.zip", name: "Monroe" },
+    { path: "shapefiles/railways/Oconto_railways.zip", name: "Oconto" },
+    { path: "shapefiles/railways/Oneida_railways.zip", name: "Oneida" },
+    { path: "shapefiles/railways/Outagamie_railways.zip", name: "Outagamie" },
+    { path: "shapefiles/railways/Ozaukee_railways.zip", name: "Ozaukee" },
+    { path: "shapefiles/railways/Pepin_railways.zip", name: "Pepin" },
+    { path: "shapefiles/railways/Pierce_railways.zip", name: "Pierce" },
+    { path: "shapefiles/railways/Polk_railways.zip", name: "Polk" },
+    { path: "shapefiles/railways/Portage_railways.zip", name: "Portage" },
+    { path: "shapefiles/railways/Price_railways.zip", name: "Price" },
+    { path: "shapefiles/railways/Racine_railways.zip", name: "Racine" },
+    { path: "shapefiles/railways/Richland_railways.zip", name: "Richland" },
+    { path: "shapefiles/railways/Rock_railways.zip", name: "Rock" },
+    { path: "shapefiles/railways/Rusk_railways.zip", name: "Rusk" },
+    { path: "shapefiles/railways/Sauk_railways.zip", name: "Sauk" },
+    { path: "shapefiles/railways/Sawyer_railways.zip", name: "Sawyer" },
+    { path: "shapefiles/railways/Shawano_railways.zip", name: "Shawano" },
+    { path: "shapefiles/railways/Sheboygan_railways.zip", name: "Sheboygan" },
+    { path: "shapefiles/railways/St. Croix_railways.zip", name: "St. Croix" },
+    { path: "shapefiles/railways/Taylor_railways.zip", name: "Taylor" },
+    { path: "shapefiles/railways/Trempealeau_railways.zip", name: "Trempealeau" },
+    { path: "shapefiles/railways/Vernon_railways.zip", name: "Vernon" },
+    { path: "shapefiles/railways/Walworth_railways.zip", name: "Walworth" },
+    { path: "shapefiles/railways/Washburn_railways.zip", name: "Washburn" },
+    { path: "shapefiles/railways/Washington_railways.zip", name: "Washington" },
+    { path: "shapefiles/railways/Waukesha_railways.zip", name: "Waukesha" },
+    { path: "shapefiles/railways/Waupaca_railways.zip", name: "Waupaca" },
+    { path: "shapefiles/railways/Winnebago_railways.zip", name: "Winnebago" },
+    { path: "shapefiles/railways/Wood_railways.zip", name: "Wood" }
+];
+
+// Define the style for the railways
+var railwayStyle = {
+    color: "blue", // Line color
+    weight: 5,    // Line thickness
+    opacity: 0.7  // Line opacity
+};
+
+// Create a feature group to combine all railways
+var railways = L.featureGroup().addTo(mymap);
+
+// Function to load and style each shapefile
+shapefilePaths.forEach(function(shapefile) {
+    var layer = new L.Shapefile(shapefile.path);
+    layer.once('data:loaded', function() {
+        layer.setStyle(railwayStyle);
+        railways.addLayer(layer);
+    });
+});
+
 /*********** Highways Layer **********/
 var pahigh = new L.Shapefile("shapefiles/highways.zip");
 
@@ -272,6 +360,11 @@ pahigh.once('data:loaded', function() {
     pahigh.setStyle(highwayStyle);
     highways.addLayer(pahigh);
 });
+
+
+// for big regions such as california, use code below
+
+
 
 /************** Municipality Outlines *************/
 var municipalities = new L.Shapefile('shapefiles/muncipalities.zip', {

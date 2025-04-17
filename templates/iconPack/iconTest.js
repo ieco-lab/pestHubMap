@@ -191,7 +191,7 @@ var sunIcon = new L.Icon({
 		iconAnchor: [5, 41],
 		popupAnchor: [1, -34],
 	}),
-	winery= new L.Icon({
+	grapes= new L.Icon({
 		iconUrl: 'iconPack/grapes.png',
 		iconSize: [41, 41],
 		iconAnchor: [5, 41],
